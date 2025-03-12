@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form id="reportForm">
+        <h2>Kirim Report</h2>
+        <input type="text" id="nama" placeholder="Nama" required>
+        <input type="text" id="judul" placeholder="Judul Masalah" required>
+        <textarea id="deskripsi" placeholder="Deskripsi Masalah" rows="5" required></textarea>
+        <button type="submit">Kirim Report</button>
+    </form>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAA-SJXBN4WVFyqbOPqFlTFIUR21n9yduc",
+            authDomain: "report-ca2f1.firebaseapp.com",
+            projectId: "report-ca2f1",
+            storageBucket: "report-ca2f1.firebasestorage.app",
+            messagingSenderId: "402760074834",
+            appId: "1:402760074834:web:2b5a96af5baef72540818b"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById('reportForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const judul = document.getElementById('judul').value;
+            const deskripsi = document.getElementById('deskripsi').value;
+
+            await db.collection("reports").add({ nama, judul, deskripsi });
+
+            alert("Report berhasil dikirim!");
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
